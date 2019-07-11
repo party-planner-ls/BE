@@ -13,6 +13,15 @@ exports.up =async function(knex) {
       .string('todo_list_id', 255)
       .references('todo_list')
       .notNullable()
+    
+    tbl
+      .integer("todo_list_id")
+      .unsigned()
+      .notNullable()
+      .references("id")
+      .inTable("todo_list")
+      .onDelete("CASCADE")
+      .onUpdate("CASCADE");
 
     tbl
       .integer('price')
@@ -20,7 +29,7 @@ exports.up =async function(knex) {
 
     tbl
       .boolean('completed')
-      .notNullable()
+      .defaultTo(false)
 
   })
 };
