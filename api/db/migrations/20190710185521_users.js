@@ -3,12 +3,12 @@ exports.up = function(knex) {
     tbl.increments();
 
     tbl
-      .varchar("email", 255)
+      .string("email", 255)
       .notNullable()
       .unique();
 
     tbl
-      .varchar("password", 255)
+      .string("password", 255)
       .notNullable()
       .unique();
 

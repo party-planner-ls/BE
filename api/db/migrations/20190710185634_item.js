@@ -2,7 +2,7 @@ exports.up = function(knex) {
   return knex.schema.createTable("shopping_list", tbl => {
     tbl.increments();
 
-    tbl.varchar("name", 255).notNullable();
+    tbl.string("name", 255).notNullable();
 
     tbl.boolean("purchased").defaultTo(false);
 
