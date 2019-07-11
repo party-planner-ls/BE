@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-  return knex.schema.createTable("shopping_list", tbl => {
+  return knex.schema.createTable("image_list", tbl => {
     tbl.increments();
 
     tbl
@@ -14,5 +14,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists("shopping_list");
+  return knex.schema.dropTableIfExists("image_list");
 };
