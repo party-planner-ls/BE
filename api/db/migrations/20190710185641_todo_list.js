@@ -4,11 +4,15 @@ exports.up = function(knex, Promise) {
     tbl
       .increments()
       .unique()
-
+    
     tbl
-      .string('party_id')
-      .references('party')
+      .integer("party_id")
+      .unsigned()
       .notNullable()
+      .references("id")
+      .inTable("party")
+      .onDelete("CASCADE")
+      .onUpdate("CASCADE");
   })
 };
 
