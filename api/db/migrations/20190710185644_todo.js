@@ -7,15 +7,18 @@ exports.up = function(knex, Promise) {
     tbl.string('name', 255)
       .notNullable()
 
-
     tbl
-      .integer('todo_list_id')
+      .integer("todo_list_id")
       .unsigned()
-      .references('todo_list')
+      .notNullable()
+      .references("id")
+      .inTable("todo_list")
+      .onDelete("CASCADE")
+      .onUpdate("CASCADE");
 
     tbl
       .boolean('completed')
-      .notNullable()
+      .defaultTo(false)
   })
 };
 
