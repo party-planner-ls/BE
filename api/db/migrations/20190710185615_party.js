@@ -2,6 +2,8 @@ exports.up = function(knex) {
   return knex.schema.createTable("party", tbl => {
     tbl.increments();
 
+    tbl.string("name").notNullable();
+
     tbl.integer("guests").notNullable();
 
     tbl.string("theme", 255).notNullable();
