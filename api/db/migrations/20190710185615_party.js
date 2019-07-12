@@ -4,9 +4,7 @@ exports.up = function(knex) {
 
     tbl.integer("guests").notNullable();
 
-    tbl.varchar("theme", 255).notNullable();
-
-    tbl.varchar("theme", 255).notNullable();
+    tbl.string("theme", 255).notNullable();
 
     tbl.date("date").notNullable();
 

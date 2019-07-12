@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-  return knex.schema.createTable("shopping_list", tbl => {
+  return knex.schema.createTable("item", tbl => {
     tbl.increments();
 
     tbl.string("name", 255).notNullable();
