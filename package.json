@@ -2,7 +2,7 @@
   "name": "BE",
   "version": "1.0.0",
   "description": "Back End Repo for Party Planner App - LS",
-  "main": "index.js",
+  "main": "nodemon index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon index.js"
@@ -29,5 +29,8 @@
     "knex": "^0.18.4",
     "nodemon": "^1.19.1",
     "sqlite3": "^4.0.9"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
   }
 }
