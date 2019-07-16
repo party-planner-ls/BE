@@ -2,19 +2,17 @@ const express = require("express");
 const server = express();
 const cors = require("cors");
 
-const configureRoutes = require('../config/routes')
+const configureRoutes = require("../auth/auth.js");
 
 server.use(cors());
 
 // Init Middleware
 server.use(express.json({ extended: false }));
 
-
 server.get("/", (req, res) => {
   res.status(200).json({ hello: "Hello World! Hi Hi" });
 });
 
-server.use('/api/config', configureRoutes)
-
+server.use("/api/auth", configureRoutes);
 
 module.exports = server;
