@@ -27,4 +27,20 @@ router.get("/", checkToken, async (req, res) => {
   }
 });
 
+router.get("/:id", checkToken, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const shoppingList = await shoppingListModel.getShoppingListById(id);
+    if (shoppingList) {
+      res.status(200).json(shoppingList);
+    } else {
+      res.status(404).json({ message: "Invalid ID" });
+    }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "We ran into an error retrieving the shopping list" });
+  }
+});
+
 module.exports = router;
