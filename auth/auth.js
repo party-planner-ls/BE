@@ -1,11 +1,10 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const router = require('express').Router();
+const router = require("express").Router();
 // const restricted = require('../api/middleware')
 
-
-const Users = require('./routes-model');
-const secrets = require('./secrets');
+const Users = require("./auth-model");
+const secrets = require("./secrets");
 
 router.post("/register", (req, res) => {
   let user = req.body;
@@ -34,7 +33,7 @@ router.post("/login", (req, res) => {
         res.status(200).json({
           message: `Welcome ${
             user.email
-            }!, we have been waiting for you here\'s your token...`,
+          }!, we have been waiting for you here\'s your token...`,
           token,
           roles: token.roles
         });
@@ -47,16 +46,15 @@ router.post("/login", (req, res) => {
     });
 });
 
-
 function generateToken(user) {
   const payload = {
     subject: user.id,
-    username: user.username,
+    email: user.email
   };
   const options = {
     expiresIn: "1d"
   };
-  return jwt.sign(payload, secrets.jwtSecret,options)
+  return jwt.sign(payload, secrets.jwtSecret, options);
 }
 
 module.exports = router;
