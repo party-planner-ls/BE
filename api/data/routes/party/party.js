@@ -8,6 +8,7 @@ const db = knex(knexConfig.development);
 
 //Import models
 const partyModel = require("./party-model.js");
+const shoppingListModel = require("../shopping_list/shoppingList-model.js");
 
 //Import middleware
 const checkToken = require("../../../middleware.js");
@@ -37,6 +38,21 @@ router.get("/:id", checkToken, async (req, res) => {
     } else {
       res.status(404).json({ message: "Invalid ID" });
     }
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "We ran into an error retrieving the party" });
+  }
+});
+
+//List posts with specified thread id
+router.get("/:id/list", checkToken, async (req, res) => {
+  try {
+    //Joins the two tables together, and uses the thread_id foreign key to match id of threads and returns data
+    const shoppingList = await shoppingListModel
+      .getShoppingList()
+      .where("l.id", req.params.id);
+    res.status(200).json(shoppingList);
   } catch (err) {
     res
       .status(500)
