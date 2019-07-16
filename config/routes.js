@@ -1,24 +1,18 @@
-const axios = require('axios');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const router = require('express').Router();
+// const restricted = require('../api/middleware')
 
-// const { authenticate } = require('../auth/authenticate');
 
-const Users = require("./routes-model");
+const Users = require('./routes-model');
 const secrets = require('./secrets');
 
+router.post("/register", (req, res) => {
+  let user = req.body;
+  const hash = bcrypt.hashSync(user.password, 10);
+  user.password = hash;
 
-module.exports = server => {
-  server.post('/api/register', register);
-  server.post('/api/login', login);
-};
-
-function register(req, res) {
-  let users = req.body;
-  const hash = bcrypt.hashSync(users.password, 10);
-  users.password = hash;
-
-  Users.add(users)
+  Users.add(user)
     .then(saved => {
       res.status(201).json(saved);
     })
@@ -26,12 +20,12 @@ function register(req, res) {
       console.log(err);
       res.status(500).json(err);
     });
-}
+});
 
-function login(req, res) {
-  let { username, password } = req.body;
+router.post("/login", (req, res) => {
+  let { email, password } = req.body;
 
-  Users.findBy({ username })
+  Users.findBy({ email })
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
@@ -39,7 +33,7 @@ function login(req, res) {
 
         res.status(200).json({
           message: `Welcome ${
-            user.username
+            user.email
             }!, we have been waiting for you here\'s your token...`,
           token,
           roles: token.roles
@@ -49,20 +43,20 @@ function login(req, res) {
       }
     })
     .catch(err => {
-      console.log(err)
       res.status(500).json(err);
     });
-}
+});
 
 
 function generateToken(user) {
   const payload = {
     subject: user.id,
     username: user.username,
-  }
+  };
   const options = {
     expiresIn: "1d"
   };
-  console.log('secrets.jwtSecret', secrets.jwtSecret)
   return jwt.sign(payload, secrets.jwtSecret,options)
 }
+
+module.exports = router;

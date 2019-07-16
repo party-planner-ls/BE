@@ -1,4 +1,4 @@
-const db = require("../api/db/dev.party.sqlite3");
+const db = require('../api/db/dbConfig');
 
 module.exports = {
   add,
@@ -10,7 +10,7 @@ module.exports = {
 
 
 function find() {
-  return db('users').select('id', 'username', 'password');
+  return db('users').select('id', 'email', 'password');
 }
 
 function findBy(filter) {
@@ -25,7 +25,7 @@ async function add(user) {
 
 function findById(id) {
   return db("users")
-    .select("id", "username")
+    .select("id", "email")
     .where({ id })
     .first();
 }
