@@ -3,6 +3,7 @@ const server = express();
 const cors = require("cors");
 
 const configureRoutes = require("../auth/auth.js");
+const partyRoute = require("./data/routes/party/party.js");
 
 server.use(cors());
 
@@ -14,5 +15,6 @@ server.get("/", (req, res) => {
 });
 
 server.use("/api/auth", configureRoutes);
+server.use("/api/party", partyRoute);
 
 module.exports = server;
