@@ -4,7 +4,7 @@ const router = require('express').Router();
 // const restricted = require('../api/middleware')
 
 
-const Users = require('./routes-model');
+const Users = require('./auth-model');
 const secrets = require('./secrets');
 
 router.post("/register", (req, res) => {
@@ -51,7 +51,7 @@ router.post("/login", (req, res) => {
 function generateToken(user) {
   const payload = {
     subject: user.id,
-    username: user.username,
+    email: user.email,
   };
   const options = {
     expiresIn: "1d"
