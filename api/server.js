@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const configureRoutes = require("../auth/auth.js");
 const partyRoute = require("./data/routes/party/party.js");
+const shoppingListRoute = require("./data/routes/shopping_list/shoppingList.js");
 
 server.use(cors());
 
@@ -16,5 +17,6 @@ server.get("/", (req, res) => {
 
 server.use("/api/auth", configureRoutes);
 server.use("/api/party", partyRoute);
+server.use("/api/list", shoppingListRoute);
 
 module.exports = server;

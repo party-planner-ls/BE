@@ -23,7 +23,7 @@ const updateParty = (id, party) => {
     .update(party)
     .where("id", id) //* returns count of updated
     .then(party => {
-      return this.getPartyById(id);
+      return getPartyById(id);
     });
 };
 
