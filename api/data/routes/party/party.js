@@ -50,7 +50,7 @@ router.get("/:id/list", checkToken, async (req, res) => {
   try {
     //Joins the two tables together, and uses the thread_id foreign key to match id of threads and returns data
     const shoppingList = await shoppingListModel
-      .getShoppingList()
+      .getShoppingListWithItems()
       .where("l.id", req.params.id);
     res.status(200).json(shoppingList);
   } catch (err) {

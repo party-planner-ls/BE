@@ -4,7 +4,7 @@ exports.up = function(knex) {
 
     tbl.string("name", 255).notNullable();
 
-    tbl.boolean("purchased").defaultTo(false);
+    tbl.boolean("purchased");
 
     tbl
       .integer("shopping_list_id")
@@ -17,7 +17,7 @@ exports.up = function(knex) {
 
     tbl.integer("price").notNullable();
 
-    tbl.timestamp("purchased_at").defaultTo(knex.fn.now());
+    tbl.timestamp("purchased_at", true);
   });
 };
 
