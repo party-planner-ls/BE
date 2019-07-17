@@ -1,7 +1,7 @@
 const db = require("../../../db/dbConfig.js");
 
 const getItems = () => {
-  return db("party");
+  return db("item");
 };
 
 const addItem = item => {
