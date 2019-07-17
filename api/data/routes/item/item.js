@@ -32,7 +32,6 @@ router.get("/:id", checkToken, async (req, res) => {
   try {
     const item = await itemModel.getItemById(id);
     if (item) {
-      //returns thread with accountName
       res.status(200).json(item);
     } else {
       res.status(404).json({ message: "Invalid ID" });

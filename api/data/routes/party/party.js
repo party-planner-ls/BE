@@ -9,6 +9,7 @@ const db = knex(knexConfig.development);
 //Import models
 const partyModel = require("./party-model.js");
 const shoppingListModel = require("../shopping_list/shoppingList-model.js");
+const todoListModel = require("../todo_list/todoList-model");
 
 //Import middleware
 const checkToken = require("../../../middleware.js");
@@ -60,35 +61,37 @@ router.get("/:id/list/items", checkToken, async (req, res) => {
   }
 });
 
-// //List items with specified party id
-// router.get("/:id/list/todo", checkToken, async (req, res) => {
-//   try {
-//     //Joins the two tables together, and uses the thread_id foreign key to match id of threads and returns data
-//     const shoppingList = await shoppingListModel
-//       .getShoppingListWithItems()
-//       .where("l.id", req.params.id);
-//     res.status(200).json(shoppingList);
-//   } catch (err) {
-//     res
-//       .status(500)
-//       .json({ message: "We ran into an error retrieving the party" });
-//   }
-// });
+//List items with specified party id
+router.get("/:id/list/todo", checkToken, async (req, res) => {
+  try {
+    //Joins the two tables together, and uses the thread_id foreign key to match id of threads and returns data
+    const todoList = await todoListModel
+      .getTodoListWithTodo()
+      .where("l.party_id", req.params.id);
+    res.status(200).json(todoList);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "We ran into an error retrieving the todos" });
+  }
+});
 
-// //List items with specified party id
-// router.get("/:id/list/entertainment", checkToken, async (req, res) => {
-//   try {
-//     //Joins the two tables together, and uses the thread_id foreign key to match id of threads and returns data
-//     const shoppingList = await shoppingListModel
-//       .getShoppingListWithItems()
-//       .where("l.id", req.params.id);
-//     res.status(200).json(shoppingList);
-//   } catch (err) {
-//     res
-//       .status(500)
-//       .json({ message: "We ran into an error retrieving the party" });
-//   }
-// });
+//List items with specified party id
+router.get("/:id/list/entertainment", checkToken, async (req, res) => {
+  try {
+    //Joins the two tables together, and uses the thread_id foreign key to match id of threads and returns data
+    const entertainmentList = await todoListModel
+      .getTodoListWithEnt()
+      .where("l.party_id", req.params.id);
+    res.status(200).json(entertainmentList);
+  } catch (err) {
+    res
+      .status(500)
+      .json({
+        message: "We ran into an error retrieving the entertainment list"
+      });
+  }
+});
 
 router.post("/", checkToken, async (req, res) => {
   const party = req.body;

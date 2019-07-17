@@ -4,11 +4,22 @@ const getTodoList = () => {
   return db("todo_list");
 };
 
-const getTodoListWithTodoEnt = () => {
-  return db("todo_list as l")
-    .join("todo as t", "t.todo_list_id", "=", "l.id")
-    .join("entertainment as e", "e.todo_list_id", "=", "l.id")
-    .select("l.*", "t.*", "e.*");
+const getTodoListWithTodo = () => {
+  return (
+    db("todo_list as l")
+      .join("todo as t", "t.todo_list_id", "=", "l.id")
+      // .join("entertainment as e", "e.todo_list_id", "=", "l.id")
+      .select("l.*", "t.*")
+  );
+};
+
+const getTodoListWithEnt = () => {
+  return (
+    db("todo_list as l")
+      // .join("todo as t", "t.todo_list_id", "=", "l.id")
+      .join("entertainment as e", "e.todo_list_id", "=", "l.id")
+      .select("l.*", "e.*")
+  );
 };
 
 const getTodoListById = id => {
@@ -17,8 +28,12 @@ const getTodoListById = id => {
     .first();
 };
 
-const getTodoListByIdWithTodoEnt = id => {
-  return getTodoListWithTodoEnt().where("t.todo_list_id", id); //* returns list within array
+const getTodoListByIdWithTodo = id => {
+  return getTodoListWithTodo().where("t.todo_list_id", id); //* returns list within array
+};
+
+const getTodoListByIdWithEnt = id => {
+  return getTodoListWithEnt().where("e.todo_list_id", id); //* returns list within array
 };
 
 const addTodoList = list => {
@@ -50,6 +65,8 @@ module.exports = {
   getTodoListById,
   updateTodoList,
   deleteTodoList,
-  getTodoListByIdWithTodoEnt,
-  getTodoListWithTodoEnt
+  getTodoListByIdWithTodo,
+  getTodoListByIdWithEnt,
+  getTodoListWithEnt,
+  getTodoListWithTodo
 };

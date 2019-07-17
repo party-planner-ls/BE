@@ -18,21 +18,24 @@ const router = express.Router();
 //Endpoints
 router.get("/", checkToken, async (req, res) => {
   try {
-    const todoList = await todoListModel.getTodoListWithTodoEnt();
-    res.status(200).json(todoList);
+    const todoList = await todoListModel.getTodoListWithTodo();
+    const entertainmentList = await todoListModel.getTodoListWithEnt();
+    res.status(200).json([...todoList, ...entertainmentList]);
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "We ran into an error retrieving the lists" });
+    res.status(500).json({
+      message:
+        "We ran into an error retrieving the todos and enterainment lists"
+    });
   }
 });
 
 router.get("/:id", checkToken, async (req, res) => {
   const { id } = req.params;
   try {
-    const todoList = await todoListModel.getTodoListByIdWithTodoEnt(id);
+    const todoList = await todoListModel.getTodoListByIdWithTodo(id);
+    const entList = await todoListModel.getTodoListByIdWithEnt(id);
     if (todoList) {
-      res.status(200).json(todoList);
+      res.status(200).json([...todoList, ...entList]);
     } else {
       res.status(404).json({ message: "Invalid ID" });
     }
