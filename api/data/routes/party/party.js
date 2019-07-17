@@ -45,13 +45,13 @@ router.get("/:id", checkToken, async (req, res) => {
   }
 });
 
-//List posts with specified thread id
-router.get("/:id/list", checkToken, async (req, res) => {
+//List items with specified party id
+router.get("/:id/list/items", checkToken, async (req, res) => {
   try {
-    //Joins the two tables together, and uses the thread_id foreign key to match id of threads and returns data
+    //Joins the two tables together, and uses the party_id foreign key to match id of party and returns data
     const shoppingList = await shoppingListModel
       .getShoppingListWithItems()
-      .where("l.id", req.params.id);
+      .where("l.party_id", req.params.id);
     res.status(200).json(shoppingList);
   } catch (err) {
     res
@@ -59,6 +59,36 @@ router.get("/:id/list", checkToken, async (req, res) => {
       .json({ message: "We ran into an error retrieving the party" });
   }
 });
+
+// //List items with specified party id
+// router.get("/:id/list/todo", checkToken, async (req, res) => {
+//   try {
+//     //Joins the two tables together, and uses the thread_id foreign key to match id of threads and returns data
+//     const shoppingList = await shoppingListModel
+//       .getShoppingListWithItems()
+//       .where("l.id", req.params.id);
+//     res.status(200).json(shoppingList);
+//   } catch (err) {
+//     res
+//       .status(500)
+//       .json({ message: "We ran into an error retrieving the party" });
+//   }
+// });
+
+// //List items with specified party id
+// router.get("/:id/list/entertainment", checkToken, async (req, res) => {
+//   try {
+//     //Joins the two tables together, and uses the thread_id foreign key to match id of threads and returns data
+//     const shoppingList = await shoppingListModel
+//       .getShoppingListWithItems()
+//       .where("l.id", req.params.id);
+//     res.status(200).json(shoppingList);
+//   } catch (err) {
+//     res
+//       .status(500)
+//       .json({ message: "We ran into an error retrieving the party" });
+//   }
+// });
 
 router.post("/", checkToken, async (req, res) => {
   const party = req.body;
