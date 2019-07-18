@@ -4,7 +4,8 @@ module.exports = {
   add,
   find,
   findBy,
-  findById
+  findById,
+  remove
 };
 
 
@@ -28,4 +29,10 @@ function findById(id) {
     .select("id", "email")
     .where({ id })
     .first();
+}
+
+function remove(id) {
+  return db('users')
+    .where({ id })
+    .del()
 }

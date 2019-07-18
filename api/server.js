@@ -7,6 +7,8 @@ const partyRoute = require("./data/routes/party/party.js");
 const shoppingListRoute = require("./data/routes/shopping_list/shoppingList.js");
 const itemsRoute = require("./data/routes/item/item.js");
 const todoListRoute = require("./data/routes/todo_list/todoList.js");
+const entertainmentRoute = require('./data/routes/entertainment/entertainment');
+const todoRoute = require('./data/routes/todo/todo');
 
 server.use(cors());
 
@@ -22,5 +24,7 @@ server.use("/api/party", partyRoute);
 server.use("/api/shoppinglist", shoppingListRoute);
 server.use("/api/items", itemsRoute);
 server.use("/api/todolist", todoListRoute);
+server.use("/api/entertainment", entertainmentRoute);
+server.use("/api/todo", todoRoute);
 
 module.exports = server;

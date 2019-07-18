@@ -7,7 +7,7 @@ const knexConfig = require("../../../../knexfile.js");
 const db = knex(knexConfig.development);
 
 //Import models
-const entertainmentModel = require("./entertainment-model");
+const todoModel = require("./todo-model");
 
 //Import middleware
 const checkToken = require("../../../middleware.js");
@@ -18,39 +18,39 @@ const router = express.Router();
 //Endpoints
 router.get("/", checkToken, async (req, res) => {
   try {
-    const entertainment = await entertainmentModel.getEntertainment();
-    res.status(200).json(entertainment);
+    const todo = await todoModel.getTodo();
+    res.status(200).json(todo);
   } catch (err) {
     res
       .status(500)
-      .json({ message: "We ran into an error retrieving the entertainment" });
+      .json({ message: "We ran into an error retrieving the todo" });
   }
 });
 
 router.get("/:id", checkToken, async (req, res) => {
   const { id } = req.params;
   try {
-    const entertainment = await entertainmentModel.getEntertainmentById(id);
-    if (entertainment) {
-      res.status(200).json(entertainment);
+    const todo = await todoModel.getTodoById(id);
+    if (todo) {
+      res.status(200).json(todo);
     } else {
       res.status(404).json({ message: "Invalid ID" });
     }
   } catch (err) {
     res
       .status(500)
-      .json({ message: "We ran into an error retrieving the entertainment" });
+      .json({ message: "We ran into an error retrieving the todo" });
   }
 });
 
 router.post("/", checkToken, async (req, res) => {
-  const entertainment = req.body;
+  const todo = req.body;
   try {
-    const addEntertainment = await entertainmentModel.addEntertainment(entertainment);
-    res.status(200).json(addEntertainment);
+    const addTodo = await todoModel.addTodo(todo);
+    res.status(200).json(addTodo);
   } catch (err) {
     res.status(500).json({
-      message: "Error adding entertainment"
+      message: "Error adding todo"
     });
   }
 });
@@ -61,11 +61,11 @@ router.delete("/:id", checkToken, async (req, res) => {
     res.status(404).json({ message: "missing ID or wrong ID" });
   } else {
     try {
-      const deletedEntertainment = await entertainmentModel.deleteEntertainment(id);
-      res.status(204).json(deletedEntertainment);
+      const deletedTodo = await todoModel.deleteTodo(id);
+      res.status(204).json(deletedTodo);
     } catch (err) {
       res.status(500).json({
-        message: "Error deleting entertainment"
+        message: "Error deleting Todo"
       });
     }
   }
@@ -74,15 +74,15 @@ router.delete("/:id", checkToken, async (req, res) => {
 router.put("/:id", checkToken, async (req, res) => {
   const { id } = req.params;
   try {
-    const updatingEntertainment = await entertainmentModel.updateEntertainment(id, req.body);
-    if (updatingEntertainment) {
-      res.status(200).json(updatingEntertainment);
+    const updatingTodo = await todoModel.updateTodo(id, req.body);
+    if (updatingTodo) {
+      res.status(200).json(updatingTodo);
     } else {
-      res.status(404).json({ message: "Error in updating entertainment" });
+      res.status(404).json({ message: "Error in updating todo" });
     }
   } catch (err) {
     res.status(500).json({
-      message: "Error updating entertainment"
+      message: "Error updating todo"
     });
   }
 });
