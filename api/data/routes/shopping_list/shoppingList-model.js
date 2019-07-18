@@ -1,13 +1,23 @@
 const db = require("../../../db/dbConfig.js");
 
 const getShoppingList = () => {
+  return db("shopping_list");
+};
+
+const getShoppingListWithItems = () => {
   return db("shopping_list as l")
     .join("item as i", "i.shopping_list_id", "=", "l.id")
     .select("l.*", "i.*");
 };
 
 const getShoppingListById = id => {
-  return getShoppingList().where("i.shopping_list_id", id); //* returns list within array
+  return db("shopping_list")
+    .where("id", id) //* returns party within array
+    .first();
+};
+
+const getShoppingListByIdWithItems = id => {
+  return getShoppingListWithItems().where("i.shopping_list_id", id); //* returns list within array
 };
 
 const addShoppingList = list => {
@@ -38,5 +48,7 @@ module.exports = {
   addShoppingList,
   getShoppingListById,
   updateShoppingList,
-  deleteShoppingList
+  deleteShoppingList,
+  getShoppingListByIdWithItems,
+  getShoppingListWithItems
 };

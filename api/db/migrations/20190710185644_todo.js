@@ -1,11 +1,8 @@
-
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('todo', tbl => {
-    tbl.increments()
-      .unique()
+  return knex.schema.createTable("todo", tbl => {
+    tbl.increments().unique();
 
-    tbl.string('name', 255)
-      .notNullable()
+    tbl.string("name", 255).notNullable();
 
     tbl
       .integer("todo_list_id")
@@ -16,13 +13,10 @@ exports.up = function(knex, Promise) {
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
 
-    tbl
-      .boolean('completed')
-      .defaultTo(false)
-  })
+    tbl.boolean("completed");
+  });
 };
 
 exports.down = async function(knex) {
-  await knex.schema.dropTableIfExists('todo')
+  await knex.schema.dropTableIfExists("todo");
 };
-

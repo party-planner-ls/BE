@@ -7,7 +7,7 @@ const knexConfig = require("../../../../knexfile.js");
 const db = knex(knexConfig.development);
 
 //Import models
-const shoppingListModel = require("./shoppingList-model");
+const todoListModel = require("./todoList-model");
 
 //Import middleware
 const checkToken = require("../../../middleware.js");
@@ -18,42 +18,41 @@ const router = express.Router();
 //Endpoints
 router.get("/", checkToken, async (req, res) => {
   try {
-    const shoppingList = await shoppingListModel.getShoppingListWithItems();
-    res.status(200).json(shoppingList);
+    const todoList = await todoListModel.getTodoListWithTodo();
+    const entertainmentList = await todoListModel.getTodoListWithEnt();
+    res.status(200).json([...todoList, ...entertainmentList]);
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "We ran into an error retrieving the lists" });
+    res.status(500).json({
+      message:
+        "We ran into an error retrieving the todos and enterainment lists"
+    });
   }
 });
 
 router.get("/:id", checkToken, async (req, res) => {
   const { id } = req.params;
   try {
-    const shoppingList = await shoppingListModel.getShoppingListByIdWithItems(
-      id
-    );
-    if (shoppingList) {
-      res.status(200).json(shoppingList);
+    const todoList = await todoListModel.getTodoListByIdWithTodo(id);
+    const entList = await todoListModel.getTodoListByIdWithEnt(id);
+    if (todoList) {
+      res.status(200).json([...todoList, ...entList]);
     } else {
       res.status(404).json({ message: "Invalid ID" });
     }
   } catch (err) {
     res
       .status(500)
-      .json({ message: "We ran into an error retrieving the shopping list" });
+      .json({ message: "We ran into an error retrieving the todo list" });
   }
 });
 
 //Adding the party_id is basically the req.body
 router.post("/", checkToken, async (req, res) => {
   //party_id === req.body to attach to right party
-  const shoppingList = req.body;
+  const todoList = req.body;
   try {
-    const addShoppingList = await shoppingListModel.addShoppingList(
-      shoppingList
-    );
-    res.status(200).json(addShoppingList);
+    const addTodoList = await todoListModel.addTodoList(todoList);
+    res.status(200).json(addTodoList);
   } catch (err) {
     res.status(500).json({
       message: "Error adding shopping list"
@@ -67,13 +66,11 @@ router.delete("/:id", checkToken, async (req, res) => {
     res.status(404).json({ message: "missing ID or wrong ID" });
   } else {
     try {
-      const deletedShoppingList = await shoppingListModel.deleteShoppingList(
-        id
-      );
-      res.status(204).json(deletedShoppingList);
+      const deletedTodoList = await todoListModel.deleteTodoList(id);
+      res.status(204).json(deletedTodoList);
     } catch (err) {
       res.status(500).json({
-        message: "Error deleting shopping list"
+        message: "Error deleting todo list"
       });
     }
   }
@@ -82,18 +79,15 @@ router.delete("/:id", checkToken, async (req, res) => {
 router.put("/:id", checkToken, async (req, res) => {
   const { id } = req.params;
   try {
-    const updatingShoppingList = await shoppingListModel.updateShoppingList(
-      id,
-      req.body
-    );
-    if (updatingShoppingList) {
-      res.status(200).json(updatingShoppingList);
+    const updatingTodo = await todoListModel.updateTodo(id, req.body);
+    if (updatingTodo) {
+      res.status(200).json(updatingTodo);
     } else {
-      res.status(404).json({ message: "Error in updating shopping list" });
+      res.status(404).json({ message: "Error in updating todo list" });
     }
   } catch (err) {
     res.status(500).json({
-      message: "Error updating shopping list I'm at the catch"
+      message: "Error updating todo list I'm at the catch"
     });
   }
 });
