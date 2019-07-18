@@ -39,4 +39,4 @@ module.exports = {
   addParty,
   updateParty,
   deleteParty
-};
+}

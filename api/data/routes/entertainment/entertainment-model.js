@@ -1,42 +1,42 @@
 const db = require("../../../db/dbConfig.js");
 
-const getEnts = () => {
+const getEntertainment = () => {
   return db("entertainment");
 };
 
-const addEnt = ent => {
+const addEntertainment = entertainment => {
   return db("entertainment")
-    .insert(ent)
+    .insert(entertainment)
     .then(ids => {
-      return getEntById(ids[0]);
+      return getEntertainmentById(ids[0]);
     });
 };
 
-const getEntById = id => {
+const getEntertainmentById = id => {
   return db("entertainment")
-    .where("id", id) //* returns ent within array
+    .where("entertainment", id) //* returns entertainment within array
     .first();
 };
 
-const updateEnt = (id, ent) => {
+const updateEntertainment = (id, item) => {
   return db("entertainment")
-    .update(ent)
+    .update(entertainment)
     .where("id", id) //* returns count of updated
-    .then(ent => {
-      return getEntById(id);
+    .then(entertainment => {
+      return getEntertainmentById(id);
     });
 };
 
-const deleteEnt = id => {
+const deleteEntertainment = id => {
   return db("entertainment")
     .where("id", id)
-    .del(); //* returns count of deleted
+    .del(); //returns count of deleted
 };
 
 module.exports = {
-  getEnts,
-  getEntById,
-  addEnt,
-  updateEnt,
-  deleteEnt
+  getEntertainment,
+  getEntertainmentById,
+  addEntertainment,
+  updateEntertainment,
+  deleteEntertainment
 };

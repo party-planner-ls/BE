@@ -7,7 +7,7 @@ const knexConfig = require("../../../../knexfile.js");
 const db = knex(knexConfig.development);
 
 //Import models
-const entModel = require("./entertainment-model.js");
+const entertainmentModel = require("./entertainment-model");
 
 //Import middleware
 const checkToken = require("../../../middleware.js");
@@ -18,39 +18,41 @@ const router = express.Router();
 //Endpoints
 router.get("/", checkToken, async (req, res) => {
   try {
-    const ents = await entModel.getEnts();
-    res.status(200).json(ents);
+    const entertainment = await entertainmentModel.getEntertainment();
+    res.status(200).json(entertainment);
   } catch (err) {
-    res.status(500).json({
-      message: "We ran into an error retrieving the entertainment list"
-    });
+    res
+      .status(500)
+      .json({ message: "We ran into an error retrieving the entertainment" });
   }
 });
 
 router.get("/:id", checkToken, async (req, res) => {
   const { id } = req.params;
   try {
-    const ent = await entModel.getEntById(id);
-    if (ent) {
-      res.status(200).json(ent);
+    const entertainment = await entertainmentModel.getEntertainmentById(id);
+    if (entertainment) {
+      res.status(200).json(entertainment);
     } else {
       res.status(404).json({ message: "Invalid ID" });
     }
   } catch (err) {
     res
       .status(500)
-      .json({ message: "We ran into an error retrieving the item" });
+      .json({ message: "We ran into an error retrieving the entertainment" });
   }
 });
 
 router.post("/", checkToken, async (req, res) => {
-  const ent = req.body;
+  const entertainment = req.body;
   try {
-    const addEnt = await entModel.addEnt(ent);
-    res.status(200).json(addEnt);
+    const addEntertainment = await entertainmentModel.addEntertainment(
+      entertainment
+    );
+    res.status(200).json(addEntertainment);
   } catch (err) {
     res.status(500).json({
-      message: "Error adding item"
+      message: "Error adding entertainment"
     });
   }
 });
@@ -61,11 +63,13 @@ router.delete("/:id", checkToken, async (req, res) => {
     res.status(404).json({ message: "missing ID or wrong ID" });
   } else {
     try {
-      const deletedEnt = await entModel.deleteEnt(id);
-      res.status(204).json(deletedEnt);
+      const deletedEntertainment = await entertainmentModel.deleteEntertainment(
+        id
+      );
+      res.status(204).json(deletedEntertainment);
     } catch (err) {
       res.status(500).json({
-        message: "Error deleting ent"
+        message: "Error deleting entertainment"
       });
     }
   }
@@ -74,15 +78,18 @@ router.delete("/:id", checkToken, async (req, res) => {
 router.put("/:id", checkToken, async (req, res) => {
   const { id } = req.params;
   try {
-    const updatingEnt = await entModel.updateEnt(id, req.body);
-    if (updatingEnt) {
-      res.status(200).json(updatingEnt);
+    const updatingEntertainment = await entertainmentModel.updateEntertainment(
+      id,
+      req.body
+    );
+    if (updatingEntertainment) {
+      res.status(200).json(updatingEntertainment);
     } else {
-      res.status(404).json({ message: "Error in updating ent" });
+      res.status(404).json({ message: "Error in updating entertainment" });
     }
   } catch (err) {
     res.status(500).json({
-      message: "Error updating ent"
+      message: "Error updating entertainment"
     });
   }
 });
