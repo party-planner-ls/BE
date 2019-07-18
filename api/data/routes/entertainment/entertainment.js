@@ -30,7 +30,7 @@ router.get("/", checkToken, async (req, res) => {
 router.get("/:id", checkToken, async (req, res) => {
   const { id } = req.params;
   try {
-    const entertainment = await entertainmentModel.getItemById(id);
+    const entertainment = await entertainmentModel.getEntertainmentById(id);
     if (entertainment) {
       res.status(200).json(entertainment);
     } else {
