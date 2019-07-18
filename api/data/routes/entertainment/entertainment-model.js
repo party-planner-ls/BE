@@ -30,7 +30,7 @@ const updateEntertainment = (id, item) => {
 const deleteEntertainment = id => {
   return db("entertainment")
     .where("id", id)
-    .del(); //* returns count of deleted
+    .del(); //returns count of deleted
 };
 
 module.exports = {
