@@ -11,7 +11,7 @@ module.exports = {
       directory: './api/db/migrations'
     },
     useNullAsDefault: true
-  }
+  },
   //
   // staging: {
   //   client: 'postgresql',
