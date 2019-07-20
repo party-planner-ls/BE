@@ -9,6 +9,9 @@ module.exports = {
     migrations: {
       directory: "./api/db/migrations"
     },
+    seeds: {
+      directory: "./api/db/seeds"
+    },
     useNullAsDefault: true
   },
 
