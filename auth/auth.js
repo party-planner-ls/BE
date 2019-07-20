@@ -5,6 +5,18 @@ const router = require("express").Router();
 
 const Users = require("./auth-model");
 const secrets = require("./secrets");
+const checkToken = require("../api/middleware.js");
+
+router.get("/users", checkToken, async (req, res) => {
+  try {
+    const user = await Users.find();
+    res.status(200).json(user);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "We ran into an error retrieving the registered user" });
+  }
+});
 
 router.post("/register", (req, res) => {
   let user = req.body;
@@ -33,7 +45,7 @@ router.post("/login", (req, res) => {
         res.status(200).json({
           message: `Welcome ${
             user.email
-            }!, we have been waiting for you here\'s your token...`,
+          }!, we have been waiting for you here\'s your token...`,
           token,
           roles: token.roles
         });
