@@ -8,6 +8,7 @@ const secrets = require("./secrets");
 const checkToken = require("../api/middleware.js");
 
 router.get("/users", checkToken, async (req, res) => {
+  console.log(req.user_id);
   try {
     const user = await Users.find();
     res.status(200).json(user);
