@@ -5,6 +5,15 @@ exports.up = function(knex) {
     tbl.string("name");
 
     tbl.string("data");
+
+    tbl
+      .integer("image_list_id")
+      .unsigned()
+      .notNullable()
+      .references("id")
+      .inTable("image_list")
+      .onDelete("CASCADE")
+      .onUpdate("CASCADE");
   });
 };
 
