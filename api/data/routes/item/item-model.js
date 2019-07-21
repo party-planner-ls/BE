@@ -30,7 +30,8 @@ const updateItem = (id, item) => {
 const deleteItem = id => {
   return db("item")
     .where("id", id)
-    .del(); //* returns count of deleted
+    .del();
+  //* returns count of deleted
 };
 
 module.exports = {

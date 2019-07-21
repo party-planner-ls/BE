@@ -4,8 +4,7 @@ const multer = require("multer");
 
 const router = express.Router();
 
-const Image = require("../models/image");
-const Users = require("../models/userModel");
+const Image = require("./image-model.js");
 
 //This is used for uploading photos into user accounts
 const storage = multer.diskStorage({
@@ -44,23 +43,38 @@ const upload = multer({
 router.post(
   "/uploadimage",
   upload.single("imageData"),
-  checkToken,
+  // checkToken,
   async (req, res) => {
+    console.log(req.file, "i made it here req.file");
+    const file = req.file;
     const newImage = {
-      name: req.file.imageName,
-      data: req.file.path
+      name: file.filename,
+      data: file.path,
+      image_list_id: 1
     };
 
     try {
-      const currentUser = await Users.findById(req.user_id);
-      const saveImage = await currentUser.images.push(savedImage);
-      currentUser.save();
-      console.log("currentUser OBJ", currentUser);
-      res.status(201).json(saveImage);
+      console.log(file.path, "i made it here");
+      const addedImage = await Image.addImage(newImage);
+      if (!file) {
+        res.status(400).json({ message: "Please upload a file" });
+      }
+      res.status(201).json(addedImage);
     } catch (err) {
       res.status(500).json({ message: "Fail to upload image" });
     }
   }
 );
+
+router.get("/", checkToken, async (req, res) => {
+  try {
+    const images = await Image.getImages();
+    res.status(200).json(images);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "We ran into an error retrieving the images" });
+  }
+});
 
 module.exports = router;
