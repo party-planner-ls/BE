@@ -19,6 +19,20 @@ router.get("/users", checkToken, async (req, res) => {
   }
 });
 
+const checkToken = require("../api/middleware");
+
+
+router.get("/register", checkToken, async (req, res) => {
+  try {
+    const user = await Users.find();
+    res.status(200).json(user);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "We ran into an error retrieving the registered user" });
+  }
+});
+
 router.post("/register", (req, res) => {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 10);
@@ -32,6 +46,17 @@ router.post("/register", (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
+});
+
+router.get("/login", checkToken, async (req, res) => {
+  try {
+    const user = await Users.find();
+    res.status(200).json(user);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "We ran into an error retrieving the registered user" });
+  }
 });
 
 router.post("/login", (req, res) => {
@@ -58,6 +83,7 @@ router.post("/login", (req, res) => {
       res.status(500).json(err);
     });
 });
+
 
 function generateToken(user) {
   const payload = {
