@@ -19,8 +19,7 @@ router.get("/users", checkToken, async (req, res) => {
   }
 });
 
-const checkToken = require("../api/middleware");
-
+// const checkToken = require("../api/middleware");
 
 router.get("/register", checkToken, async (req, res) => {
   try {
@@ -83,7 +82,6 @@ router.post("/login", (req, res) => {
       res.status(500).json(err);
     });
 });
-
 
 function generateToken(user) {
   const payload = {
