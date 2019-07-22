@@ -85,11 +85,9 @@ router.get("/:id/list/entertainment", checkToken, async (req, res) => {
       .where("l.party_id", req.params.id);
     res.status(200).json(entertainmentList);
   } catch (err) {
-    res
-      .status(500)
-      .json({
-        message: "We ran into an error retrieving the entertainment list"
-      });
+    res.status(500).json({
+      message: "We ran into an error retrieving the entertainment list"
+    });
   }
 });
 

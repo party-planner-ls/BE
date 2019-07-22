@@ -47,6 +47,7 @@ router.post("/", checkToken, async (req, res) => {
   const item = req.body;
   try {
     const addItem = await itemModel.addItem(item);
+    console.log("did i make it here");
     res.status(200).json(addItem);
   } catch (err) {
     res.status(500).json({

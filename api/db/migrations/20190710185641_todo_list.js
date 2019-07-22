@@ -1,10 +1,7 @@
-
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('todo_list', tbl => {
-    tbl
-      .increments()
-      .unique()
-    
+  return knex.schema.createTable("todo_list", tbl => {
+    tbl.increments();
+
     tbl
       .integer("party_id")
       .unsigned()
@@ -13,9 +10,9 @@ exports.up = function(knex, Promise) {
       .inTable("party")
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
-  })
+  });
 };
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('todo_list')
+  return knex.schema.dropTableIfExists("todo_list");
 };
