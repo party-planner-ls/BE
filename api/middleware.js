@@ -11,6 +11,8 @@ module.exports = (req, res, next) => {
         res.status(401).json({ You: "can't do that!" });
       } else {
         req.decodedJwt = decodedToken;
+        console.log(decodedToken);
+        req.user_id = decodedToken.subject;
         console.log("decoded token", req.decodedJwt);
         next();
       }

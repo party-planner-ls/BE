@@ -46,7 +46,9 @@ router.get("/:id", checkToken, async (req, res) => {
 router.post("/", checkToken, async (req, res) => {
   const entertainment = req.body;
   try {
-    const addEntertainment = await entertainmentModel.addEntertainment(entertainment);
+    const addEntertainment = await entertainmentModel.addEntertainment(
+      entertainment
+    );
     res.status(200).json(addEntertainment);
   } catch (err) {
     res.status(500).json({
@@ -61,7 +63,9 @@ router.delete("/:id", checkToken, async (req, res) => {
     res.status(404).json({ message: "missing ID or wrong ID" });
   } else {
     try {
-      const deletedEntertainment = await entertainmentModel.deleteEntertainment(id);
+      const deletedEntertainment = await entertainmentModel.deleteEntertainment(
+        id
+      );
       res.status(204).json(deletedEntertainment);
     } catch (err) {
       res.status(500).json({
@@ -74,7 +78,10 @@ router.delete("/:id", checkToken, async (req, res) => {
 router.put("/:id", checkToken, async (req, res) => {
   const { id } = req.params;
   try {
-    const updatingEntertainment = await entertainmentModel.updateEntertainment(id, req.body);
+    const updatingEntertainment = await entertainmentModel.updateEntertainment(
+      id,
+      req.body
+    );
     if (updatingEntertainment) {
       res.status(200).json(updatingEntertainment);
     } else {
