@@ -14,7 +14,7 @@ const addTodo = todo => {
 
 const getTodoById = id => {
   return db("todo")
-    .where("todo", id) //* returns entertainment within array
+    .where("id", id) //* returns entertainment within array
     .first();
 };
 

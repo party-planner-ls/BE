@@ -7,7 +7,7 @@ const knexConfig = require("../../../../knexfile.js");
 const db = knex(knexConfig.development);
 
 //Import models
-const todoModel = require("./todo-model");
+const todoModel = require("./todo-model.js");
 
 //Import middleware
 const checkToken = require("../../../middleware.js");
@@ -46,8 +46,9 @@ router.get("/:id", checkToken, async (req, res) => {
 router.post("/", checkToken, async (req, res) => {
   const todo = req.body;
   try {
-    const addTodo = await todoModel.addTodo(todo);
-    res.status(200).json(addTodo);
+    const addTodoItem = await todoModel.addTodo(todo);
+    console.log("did i make it here");
+    res.status(200).json(addTodoItem);
   } catch (err) {
     res.status(500).json({
       message: "Error adding todo"

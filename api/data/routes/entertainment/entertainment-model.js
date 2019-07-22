@@ -14,7 +14,7 @@ const addEntertainment = entertainment => {
 
 const getEntertainmentById = id => {
   return db("entertainment")
-    .where("entertainment", id) //* returns entertainment within array
+    .where("id", id) //* returns entertainment within array
     .first();
 };
 
